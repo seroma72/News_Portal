@@ -1,3 +1,5 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 #from django.shortcuts import render
@@ -119,7 +121,9 @@ class ArticlesDetail(DetailView):
 
 
 # Добавляем новое представление для создания статей.
-class ArticlesCreate(CreateView):
+class ArticlesCreate(PermissionRequiredMixin, CreateView):
+    permission_required = ('news.add_articles',)
+    # raise_exception = True
     # Указываем нашу разработанную форму
     form_class = PostForm
     # модель товаров
@@ -128,7 +132,9 @@ class ArticlesCreate(CreateView):
     template_name = 'post_edit.html'
 
 # Добавляем новое представление для создания статей.
-class NewsCreate(CreateView):
+class NewsCreate(PermissionRequiredMixin, CreateView):
+    permission_required = ('news.add_news',)
+    raise_exception = True
     # Указываем нашу разработанную форму
     form_class = PostFormNews
     # модель товаров
@@ -137,7 +143,8 @@ class NewsCreate(CreateView):
     template_name = 'news_create.html'
 
 # Добавляем представление для изменения статьи
-class ArticlesUpdate(UpdateView):
+class ArticlesUpdate(PermissionRequiredMixin, UpdateView):
+    permission_required = ('news.change_articles',)
     # Указываем нашу разработанную форму
     form_class = PostForm
     # модель товаров
@@ -146,7 +153,8 @@ class ArticlesUpdate(UpdateView):
     template_name = 'post_edit.html'
 
 # Добавляем представление для изменения статьи
-class NewsUpdate(UpdateView):
+class NewsUpdate(PermissionRequiredMixin, UpdateView):
+    permission_required = ('news.change_news',)
     # Указываем нашу разработанную форму
     form_class = PostFormNews
     # модель товаров
@@ -155,12 +163,14 @@ class NewsUpdate(UpdateView):
     template_name = 'news_edit.html'
 
 # Представление удаляющее товар.
-class ArticlesDelete(DeleteView):
+class ArticlesDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = ('news.delete_articles',)
     model = Post
     template_name = 'articles_delete.html'
     success_url = reverse_lazy('articles_list')
 
-class NewsDelete(DeleteView):
+class NewsDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = ('news.delete_news',)
     model = Post_News
     template_name = 'news_delete.html'
     success_url = reverse_lazy('news_list')
