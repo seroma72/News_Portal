@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
-
 from .models import Post, Post_News
+
 
 class PostForm(forms.ModelForm):
     class Meta:
@@ -10,6 +10,7 @@ class PostForm(forms.ModelForm):
             'post_header',
             'post_body',
             'author',
+            'category',
 
        ]
 
@@ -20,6 +21,7 @@ class PostFormNews(forms.ModelForm):
             'post_header',
             'post_body',
             'author',
+            'category',
 
 
         ]

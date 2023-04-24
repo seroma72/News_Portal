@@ -43,6 +43,10 @@ class Author(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=500)
 
+    def __str__(self):
+        return f'{self.name.title()}'
+
+
 
 POST_TYPE = [('0', 'статья'), ('1', 'новость')]
 
@@ -54,6 +58,12 @@ class Post(models.Model):
     post_header = models.CharField(max_length=120)
     post_body = models.TextField()
     rating = models.IntegerField(default=0)
+    category = models.ForeignKey(
+        to='Category',
+        on_delete=models.CASCADE,
+        related_name='articles',
+    )
+
 
     def like(self):
         self.rating += 1
@@ -72,7 +82,7 @@ class Post(models.Model):
 
 
     def __str__(self):
-        return f'id={self.id}, input_date_time={self.input_date_time.strftime("%d.%m.%Y %H:%M:%S")}, rating={self.rating}'
+        return f'id={self.id},  input_date_time={self.input_date_time.strftime("%d.%m.%Y %H:%M:%S")}, rating={self.rating}'
 
     def get_absolute_url(self):
         return reverse('articles_detail', args=[str(self.id)])
@@ -84,6 +94,11 @@ class Post_News(models.Model):
     post_header = models.CharField(max_length=120)
     post_body = models.TextField()
     rating = models.IntegerField(default=0)
+    category = models.ForeignKey(
+        to='Category',
+        on_delete=models.CASCADE,
+        related_name='news',
+    )
 
     def like(self):
         self.rating += 1
@@ -130,3 +145,15 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'id={self.id}, rating={self.rating}'
+
+class Subscription(models.Model):
+    user = models.ForeignKey(
+        to=User,
+        on_delete=models.CASCADE,
+        related_name='subscriptions',
+    )
+    category = models.ForeignKey(
+        to='Category',
+        on_delete=models.CASCADE,
+        related_name='subscriptions',
+    )
