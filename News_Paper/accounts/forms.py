@@ -47,6 +47,7 @@ class SignUpForm(UserCreationForm):
             "password2",
         )
 
+<<<<<<< HEAD
 # class CustomSignupForm(SignupForm):
 #     def save(self, request):
 #         user = super().save(request)
@@ -54,3 +55,11 @@ class SignUpForm(UserCreationForm):
 #         user.groups.add(common_users)
 #         return user
 
+=======
+class CustomSignupForm(SignupForm):
+    def save(self, request):
+        user = super().save(request)
+        common_users = Group.objects.get(name="authors")
+        user.groups.add(common_users)
+        return user
+>>>>>>> 6b59ff21701c208cf51c95493efb5b02007a08cb
