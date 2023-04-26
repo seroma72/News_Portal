@@ -3,6 +3,7 @@ from .views import NewsList, NewsDetail, AuthorsList, AuthorDetail,\
     ArticlesList, ArticlesDetail, ArticlesCreate, ArticlesUpdate, ArticlesDelete,\
     NewsCreate, NewsDelete, NewsUpdate, subscriptions
 
+
 # импортируем наше представление
 
 urlpatterns = [
@@ -21,4 +22,5 @@ urlpatterns = [
     path('news/<int:pk>/delete/', NewsDelete.as_view(), name='news_delete'),
     path('news/<int:pk>/edit/', NewsUpdate.as_view(), name='news_edit'),
     path('subscriptions/', subscriptions, name='subscriptions'),
+
 ]

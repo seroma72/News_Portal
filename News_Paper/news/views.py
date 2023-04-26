@@ -12,6 +12,8 @@ from django.db.models import Exists, OuterRef
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_protect
 
+
+
 # Create your views here.
 class AuthorsList(ListView):
     model = Author
